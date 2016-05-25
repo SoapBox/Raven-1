@@ -55,11 +55,12 @@ class Job
      */
     public function fire(IlluminateJob $job, array $data)
     {
+        $job->delete();
+
         if (empty($this->transport)) {
             $this->transport = new $data['transport']['class']($data['transport']['options']);
         }
 
         $this->transport->send($data['url'], $data['data'], $data['headers']);
-        $job->delete();
     }
 }
